@@ -134,7 +134,7 @@ jobs:
     uses: ./.github/workflows/code-linting.yml
 
   cicd-wait-in-queue:
-    needs: [pre-flight]
+    needs: [pre-flight, code-linting]
     runs-on: ubuntu-latest
     environment: test
     if: |
@@ -367,7 +367,7 @@ jobs:
 
           if [[ $NUM_FAILED -eq 0 && $NUM_CANCELLED -eq 0 && "$HAS_LABEL" == "true" ]]; then
             RESULT="success"
-          elif [[ $NUM_FAILED -gt 0 ]]; then
+          elif [[ $NUM_CANCELLED -gt 0 ]]; then
             RESULT="cancelled"
           else
             RESULT="failure"
